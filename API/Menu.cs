@@ -40,10 +40,10 @@ public class Menu
         for (int i = 0; i < MenuObject.transform.childCount; i++)
         {
             GameObject child = MenuObject.transform.GetChild(i).gameObject;
-            // By checking if the child has a MenuNextLocation or ButtonMouseClick
-            // we can verify if it's a button or something else.
-            if (child.GetComponent<MenuNextLocation>() == null &&
-                child.GetComponent<ButtonMouseClick>() == null) continue;
+            // We assume every item in the menu except the title (which has a Text component)
+            // is an option.
+            // The menu divider is interpreted as a MenuOption, the MenuOption handles the rest.
+            if (child.GetComponent<Text>() != null) continue;
 
             menuOptions.Add(new MenuOption(child));
         }

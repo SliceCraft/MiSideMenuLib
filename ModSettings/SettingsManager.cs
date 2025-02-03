@@ -23,11 +23,27 @@ public class SettingsManager
         }
         
         new MenuOptionFactory()
-            .SetName("Mods")
+            .SetName("ModsSettings")
+            .SetParent(settingsMenu)
+            .SetOnClick(ClickTest)
+            .SetNextLocation(menu)
+            .PlaceOptionBefore(3)
+            .Build();
+        
+        new MenuOptionFactory()
+            .SetName("ModsMain")
             .SetParent(menu)
             .SetOnClick(ClickTest)
-            .SetNextLocation(settingsMenu.MenuObject)
+            .SetNextLocation(settingsMenu)
             .PlaceOptionBefore(3)
+            .Build();
+        
+        new MenuOptionFactory()
+            .SetName("ModsMain2")
+            .SetParent(menu)
+            .SetOnClick(ClickTest)
+            .SetNextLocation(settingsMenu)
+            .PlaceOptionBefore(6)
             .Build();
     }
 

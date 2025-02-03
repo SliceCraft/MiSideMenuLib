@@ -20,9 +20,9 @@ public class MenuOptionFactory
         return this;
     }
 
-    public MenuOptionFactory SetNextLocation(GameObject nextLocation)
+    public MenuOptionFactory SetNextLocation(Menu nextLocation)
     {
-        NextLocation = nextLocation;
+        NextLocation = nextLocation.MenuObject;
         return this;
     }
 
@@ -52,17 +52,19 @@ public class MenuOptionFactory
 
     public MenuOption Build()
     {
+        List<MenuOption> menuOptions = Parent.MenuOptions;
+        float yPos = menuOptions[PlaceBefore].OptionObject.transform.localPosition.y;
+            
         GameObject optionObject = MenuManager.Instance.CreateOptionFromTemplate(Parent);
         MenuOption menuOption = new MenuOption(optionObject);
         menuOption.Text = Name;
+        menuOption.TextComponent.font = GlobalGame.fontUse;
         menuOption.NextLocation = NextLocation;
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
         menuOption.OnClick.AddListener(OnClickAction);
-
-        List<MenuOption> menuOptions = Parent.MenuOptions;
         
         Vector3 localPos = menuOption.OptionObject.transform.localPosition;
-        localPos.y = menuOptions[PlaceBefore - 1].OptionObject.transform.localPosition.y;
+        localPos.y = yPos;
         menuOption.OptionObject.transform.localPosition = localPos;
         
         for (int i = PlaceBefore; i < menuOptions.Count; i++)

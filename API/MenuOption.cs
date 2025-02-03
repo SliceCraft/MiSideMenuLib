@@ -12,11 +12,19 @@ public class MenuOption
     {
         OptionObject = originalOption;
     }
+
+    public bool IsDivider()
+    {
+        return OptionObject.GetComponent<MenuNextLocation>() == null &&
+               OptionObject.GetComponent<ButtonMouseClick>() == null;
+    }
     
     public string Text {
         get => OptionObject.GetComponentInChildren<Text>().text;
         set => OptionObject.GetComponentInChildren<Text>().text = value;
     }
+    
+    public Text TextComponent => OptionObject.GetComponentInChildren<Text>();
 
     public GameObject NextLocation
     {
