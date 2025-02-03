@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using MenuLib.Events;
 
 namespace MenuLib;
 
@@ -13,6 +14,9 @@ public class Plugin : BasePlugin
     {
         // Plugin startup logic
         Log = base.Log;
+        
+        SceneLoadedEvent.RegisterEvent();
+        
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 }

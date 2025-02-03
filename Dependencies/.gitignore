@@ -1,2 +1,4 @@
 __Generated
 *.dll
+*.db
+assembly-hash.txt
