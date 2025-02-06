@@ -100,7 +100,7 @@ public class MenuManager
         {
             // Since game objects are only destroyed at the end of the frame we detach the children
             // which makes sure that future menu option creation won't be impacted
-            child.transform.parent = null;
+            child.transform.SetParent(null);
                 
             Object.Destroy(child);
         }

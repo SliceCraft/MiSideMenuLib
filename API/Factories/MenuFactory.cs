@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace MenuLib.API.Factories;
 
@@ -33,8 +34,9 @@ public class MenuFactory
 
     public Menu Build()
     {
+        if(_title == null) throw new Exception("Title must be set before building a menu");
         GameObject menuGo = MenuManager.Instance.CreateMenuFromTemplate();
-        menuGo.name = _objectName;
+        if(_objectName != null) menuGo.name = _objectName;
         
         MenuLocation menuLocation = menuGo.GetComponent<MenuLocation>();
         
@@ -43,13 +45,16 @@ public class MenuFactory
         menu.Title = _title;
         menu.TextComponent.font = GlobalGame.fontUse;
 
-        MenuOption backButton = new MenuOptionFactory()
-            .SetName("BACK")
-            .SetParent(menu)
-            .SetNextLocation(_backMenu)
-            .Build();
+        if (_backMenu == null)
+        {
+            MenuOption backButton = new MenuOptionFactory()
+                .SetName("BACK")
+                .SetParent(menu)
+                .SetNextLocation(_backMenu)
+                .Build();
         
-        menuLocation.buttonBack = backButton.OptionObject;
+            menuLocation.buttonBack = backButton.OptionObject;
+        }
 
         return menu;
     }

@@ -54,7 +54,16 @@ public class Menu
     }
 
     public List<MenuOption> MenuOptions => GetMenuOptions();
+    
+    public MenuOption Find(string name)
+    {
+        foreach (MenuOption option in MenuOptions)
+        {
+            if(option.OptionObject.gameObject.name.ToLower().Equals(name.ToLower())) return option;
+        }
+
+        return null;
+    }
 
     // TODO: Method for forcing to switch to this menu
-    // TODO: System for modifying existing menus
 }

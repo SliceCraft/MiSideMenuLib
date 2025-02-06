@@ -8,39 +8,40 @@ namespace MenuLib.API.Factories;
 
 public class MenuOptionFactory
 {
-    private string Name = null;
-    private GameObject NextLocation = null;
-    private UnityAction OnClickAction = null;
-    private Menu Parent = null;
-    private int PlaceBefore = -1;
+    private string _name = null;
+    private GameObject _nextLocation = null;
+    private UnityAction _onClickAction = null;
+    private Menu _parent = null;
+    private int _placeBefore = -1;
+    private string _objectName = null;
     
     public MenuOptionFactory SetName(string name)
     {
-        Name = name;
+        _name = name;
         return this;
     }
 
     public MenuOptionFactory SetNextLocation(Menu nextLocation)
     {
-        NextLocation = nextLocation.MenuObject;
+        _nextLocation = nextLocation.MenuObject;
         return this;
     }
 
     public MenuOptionFactory SetOnClick(Action unityAction)
     {
-        OnClickAction = unityAction;
+        _onClickAction = unityAction;
         return this;
     }
 
     public MenuOptionFactory SetParent(Menu parent)
     {
-        Parent = parent;
+        _parent = parent;
         return this;
     }
 
     public MenuOptionFactory PlaceOptionBefore(int placeBefore)
     {
-        PlaceBefore = placeBefore;
+        _placeBefore = placeBefore;
         return this;
     }
     
@@ -50,11 +51,18 @@ public class MenuOptionFactory
         return null;
     }
 
+    public MenuOptionFactory SetObjectName(string name)
+    {
+        _objectName = name;
+        return this;
+    }
+
     public MenuOption Build()
     {
-        List<MenuOption> menuOptions = Parent.MenuOptions;
+        if(_name == null || _parent == null || _nextLocation == null) throw new Exception("Name, Parent and NextLocation must be set before building an option");
+        List<MenuOption> menuOptions = _parent.MenuOptions;
         float yPos;
-        if (PlaceBefore == -1)
+        if (_placeBefore == -1)
         {
             if (menuOptions.Count > 0)
             {
@@ -67,24 +75,27 @@ public class MenuOptionFactory
         }
         else
         {
-            yPos = menuOptions[PlaceBefore].OptionObject.transform.localPosition.y;
+            yPos = menuOptions[_placeBefore].OptionObject.transform.localPosition.y;
         }
             
-        GameObject optionObject = MenuManager.Instance.CreateOptionFromTemplate(Parent);
+        GameObject optionObject = MenuManager.Instance.CreateOptionFromTemplate(_parent);
+        
+        if(_objectName != null) optionObject.name = _objectName;
+        
         MenuOption menuOption = new MenuOption(optionObject);
-        menuOption.Text = Name;
+        menuOption.Text = _name;
         menuOption.TextComponent.font = GlobalGame.fontUse;
-        menuOption.NextLocation = NextLocation;
+        menuOption.NextLocation = _nextLocation;
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
-        if(OnClickAction != null) menuOption.OnClick.AddListener(OnClickAction);
+        if(_onClickAction != null) menuOption.OnClick.AddListener(_onClickAction);
         
         Vector3 localPos = menuOption.OptionObject.transform.localPosition;
         localPos.y = yPos;
         menuOption.OptionObject.transform.localPosition = localPos;
 
-        if (PlaceBefore >= 0)
+        if (_placeBefore >= 0)
         {
-            for (int i = PlaceBefore; i < menuOptions.Count; i++)
+            for (int i = _placeBefore; i < menuOptions.Count; i++)
             {
                 Vector3 localPosition = menuOptions[i].OptionObject.transform.localPosition;
                 localPosition.y -= 55;
@@ -92,7 +103,7 @@ public class MenuOptionFactory
             }
         }
 
-        MenuLocation menuLocation = Parent.MenuObject.GetComponent<MenuLocation>();
+        MenuLocation menuLocation = _parent.MenuObject.GetComponent<MenuLocation>();
         menuLocation.countCases += 1;
         RectTransform rectTransform = optionObject.GetComponent<RectTransform>();
         menuLocation.objects.Add(rectTransform);
