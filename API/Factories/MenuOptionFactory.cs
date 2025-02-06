@@ -53,7 +53,22 @@ public class MenuOptionFactory
     public MenuOption Build()
     {
         List<MenuOption> menuOptions = Parent.MenuOptions;
-        float yPos = menuOptions[PlaceBefore].OptionObject.transform.localPosition.y;
+        float yPos;
+        if (PlaceBefore == -1)
+        {
+            if (menuOptions.Count > 0)
+            {
+                yPos = menuOptions[^1].OptionObject.transform.localPosition.y + 55;
+            }
+            else
+            {
+                yPos = -100;
+            }
+        }
+        else
+        {
+            yPos = menuOptions[PlaceBefore].OptionObject.transform.localPosition.y;
+        }
             
         GameObject optionObject = MenuManager.Instance.CreateOptionFromTemplate(Parent);
         MenuOption menuOption = new MenuOption(optionObject);
@@ -61,17 +76,20 @@ public class MenuOptionFactory
         menuOption.TextComponent.font = GlobalGame.fontUse;
         menuOption.NextLocation = NextLocation;
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
-        menuOption.OnClick.AddListener(OnClickAction);
+        if(OnClickAction != null) menuOption.OnClick.AddListener(OnClickAction);
         
         Vector3 localPos = menuOption.OptionObject.transform.localPosition;
         localPos.y = yPos;
         menuOption.OptionObject.transform.localPosition = localPos;
-        
-        for (int i = PlaceBefore; i < menuOptions.Count; i++)
+
+        if (PlaceBefore >= 0)
         {
-            Vector3 localPosition = menuOptions[i].OptionObject.transform.localPosition;
-            localPosition.y -= 55;
-            menuOptions[i].OptionObject.transform.localPosition = localPosition;
+            for (int i = PlaceBefore; i < menuOptions.Count; i++)
+            {
+                Vector3 localPosition = menuOptions[i].OptionObject.transform.localPosition;
+                localPosition.y -= 55;
+                menuOptions[i].OptionObject.transform.localPosition = localPosition;
+            }
         }
 
         MenuLocation menuLocation = Parent.MenuObject.GetComponent<MenuLocation>();

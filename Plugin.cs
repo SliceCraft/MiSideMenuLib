@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
 using MenuLib.Events;
 
 namespace MenuLib;
@@ -12,11 +13,13 @@ public class Plugin : BasePlugin
 
     public override void Load()
     {
-        // Plugin startup logic
         Log = base.Log;
         
         SceneLoadedEvent.RegisterEvent();
         
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+        
+        Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+        harmony.PatchAll();
     }
 }

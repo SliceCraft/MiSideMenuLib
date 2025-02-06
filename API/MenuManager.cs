@@ -54,6 +54,11 @@ public class MenuManager
         for (int i = 0; i < cachedLocationMenu.transform.childCount; i++)
         {
             GameObject child = cachedLocationMenu.transform.GetChild(i).gameObject;
+            if (child.name == "Text")
+            {
+                GameObject grandChild = child.gameObject;
+                Object.Destroy(grandChild.GetComponent<Localization_UIText>());
+            }
             for (int j = 0; j < child.transform.childCount; j++)
             {
                 GameObject grandChild = child.transform.GetChild(j).gameObject;
@@ -75,7 +80,44 @@ public class MenuManager
 
     internal GameObject CreateMenuFromTemplate()
     {
-        return null;
+        GameObject menu = Object.Instantiate(_cacheLocation.transform.Find("Menu").gameObject, _frameMenu.transform);
+        List<GameObject> childrenThatShouldBeOrphaned = new List<GameObject>();
+        GameObject textObject = null;
+        for (int i = 0; i < menu.transform.childCount; i++)
+        {
+            GameObject child = menu.transform.GetChild(i).gameObject;
+            if (child.name != "Text")
+            {
+                childrenThatShouldBeOrphaned.Add(child);
+            }
+            else
+            {
+                textObject = child;
+            }
+        }
+
+        foreach (GameObject child in childrenThatShouldBeOrphaned)
+        {
+            // Since game objects are only destroyed at the end of the frame we detach the children
+            // which makes sure that future menu option creation won't be impacted
+            child.transform.parent = null;
+                
+            Object.Destroy(child);
+        }
+        
+        MenuLocation menuLocation = menu.GetComponent<MenuLocation>();
+        menuLocation.countCases = 0;
+        menuLocation.objects.Clear();
+        menuLocation.buttonBack = null;
+
+        if (textObject != null)
+        {
+            menuLocation.objects.Add(textObject.GetComponent<RectTransform>());
+        }
+
+        menu.active = false;
+        
+        return menu;
     }
     
     internal GameObject CreateOptionFromTemplate(Menu parent)

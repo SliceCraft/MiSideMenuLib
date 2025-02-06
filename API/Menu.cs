@@ -32,6 +32,8 @@ public class Menu
         }
         set => FindTitle().GetComponent<Text>().text = value;
     }
+    
+    public Text TextComponent => FindTitle().GetComponentInChildren<Text>();
 
     private List<MenuOption> GetMenuOptions()
     {

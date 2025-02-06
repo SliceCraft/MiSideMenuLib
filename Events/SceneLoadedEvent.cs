@@ -18,7 +18,6 @@ public class SceneLoadedEvent
             // This variable won't be stored since we don't need to.
             // MenuManager is a singleton and that logic is handled inside the MenuManagers constructor.
             new MenuManager();
-            SettingsManager.Init();
         }
     }
 }
