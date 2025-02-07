@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MenuLib.API.Events;
 using MenuLib.API.Factories;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class MenuManager
     {
         Instance = this;
         PrepareCache();
+        InitializedMenuManagerEvent.Invoke();
     }
 
     private List<Menu> GetMenus()

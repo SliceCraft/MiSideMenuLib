@@ -66,7 +66,7 @@ public class MenuOptionFactory
         {
             if (menuOptions.Count > 0)
             {
-                yPos = menuOptions[^1].OptionObject.transform.localPosition.y + 55;
+                yPos = menuOptions[^1].OptionObject.transform.localPosition.y - 55;
             }
             else
             {

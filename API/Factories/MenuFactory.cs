@@ -45,7 +45,7 @@ public class MenuFactory
         menu.Title = _title;
         menu.TextComponent.font = GlobalGame.fontUse;
 
-        if (_backMenu == null)
+        if (_backMenu != null)
         {
             MenuOption backButton = new MenuOptionFactory()
                 .SetName("BACK")

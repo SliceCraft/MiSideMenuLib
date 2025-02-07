@@ -1,4 +1,5 @@
 ﻿using MenuLib.API;
+using MenuLib.API.Events;
 using MenuLib.API.Factories;
 
 namespace MenuLib.ModSettings;
@@ -37,6 +38,8 @@ public class SettingsManager
             .SetNextLocation(modsMenu)
             .PlaceOptionBefore(4)
             .Build();
+        
+        InitializedEvent.Invoke();
     }
 
     public static API.Menu GetModMenu(string modName)
@@ -59,10 +62,5 @@ public class SettingsManager
             .Build();
         
         return menu;
-    }
-
-    private static void ClickTest()
-    {
-        Plugin.Log.LogInfo("YOOOO YOU CLICKED, INSANE");
     }
 }
