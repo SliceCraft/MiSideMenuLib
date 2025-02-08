@@ -6,12 +6,12 @@ namespace MenuLib.API.Factories;
 public class MenuFactory
 {
     private string _objectName = null;
-    private Menu _backMenu = null;
+    private GameMenu _backGameMenu = null;
     private string _title = null;
     
-    internal static Menu FromExistingMenu(GameObject existingMenu)
+    internal static GameMenu FromExistingMenu(GameObject existingMenu)
     {
-        return new Menu(existingMenu);
+        return new GameMenu(existingMenu);
     }
 
     public MenuFactory SetObjectName(string objectName)
@@ -20,9 +20,9 @@ public class MenuFactory
         return this;
     }
 
-    public MenuFactory SetBackButton(Menu gotoMenu)
+    public MenuFactory SetBackButton(GameMenu gotoGameMenu)
     {
-        _backMenu = gotoMenu;
+        _backGameMenu = gotoGameMenu;
         return this;
     }
     
@@ -32,7 +32,7 @@ public class MenuFactory
         return this;
     }
 
-    public Menu Build()
+    public GameMenu Build()
     {
         if(_title == null) throw new Exception("Title must be set before building a menu");
         GameObject menuGo = MenuManager.Instance.CreateMenuFromTemplate();
@@ -40,22 +40,22 @@ public class MenuFactory
         
         MenuLocation menuLocation = menuGo.GetComponent<MenuLocation>();
         
-        Menu menu =  FromExistingMenu(menuGo);
+        GameMenu gameMenu =  FromExistingMenu(menuGo);
         
-        menu.Title = _title;
-        menu.TextComponent.font = GlobalGame.fontUse;
+        gameMenu.Title = _title;
+        gameMenu.TextComponent.font = GlobalGame.fontUse;
 
-        if (_backMenu != null)
+        if (_backGameMenu != null)
         {
             MenuOption backButton = new MenuOptionFactory()
                 .SetName("BACK")
-                .SetParent(menu)
-                .SetNextLocation(_backMenu)
+                .SetParent(gameMenu)
+                .SetNextLocation(_backGameMenu)
                 .Build();
         
             menuLocation.buttonBack = backButton.OptionObject;
         }
 
-        return menu;
+        return gameMenu;
     }
 }

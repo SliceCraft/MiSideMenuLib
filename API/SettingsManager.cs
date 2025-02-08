@@ -6,61 +6,61 @@ namespace MenuLib.ModSettings;
 
 public class SettingsManager
 {
-    private static API.Menu _modsMenu = null;
+    private static API.GameMenu _modsGameMenu = null;
     
     internal static void Init()
     {
-        API.Menu menu = MenuManager.Instance.Find("Location Menu");
-        if (menu == null)
+        API.GameMenu gameMenu = MenuManager.Instance.Find("Location Menu");
+        if (gameMenu == null)
         {
             Plugin.Log.LogError("Couldn't find the main menu");
             return;            
         }
         
-        API.Menu settingsMenu = MenuManager.Instance.Find("Location MainOptions");
-        if (settingsMenu == null)
+        API.GameMenu settingsGameMenu = MenuManager.Instance.Find("Location MainOptions");
+        if (settingsGameMenu == null)
         {
             Plugin.Log.LogError("Couldn't find the settings menu");
             return;
         }
 
-        API.Menu modsMenu = new MenuFactory()
+        API.GameMenu modsGameMenu = new MenuFactory()
             .SetObjectName("Location Mods")
-            .SetBackButton(settingsMenu)
+            .SetBackButton(settingsGameMenu)
             .SetTitle("MOD SETTINGS")
             .Build();
         
-        _modsMenu = modsMenu;
+        _modsGameMenu = modsGameMenu;
         
         new MenuOptionFactory()
             .SetName("MODS")
-            .SetParent(settingsMenu)
-            .SetNextLocation(modsMenu)
+            .SetParent(settingsGameMenu)
+            .SetNextLocation(modsGameMenu)
             .PlaceOptionBefore(4)
             .Build();
         
         InitializedEvent.Invoke();
     }
 
-    public static API.Menu GetModMenu(string modName)
+    public static API.GameMenu GetModMenu(string modName)
     {
-        API.Menu menu = MenuManager.Instance.Find($"ModMenu {modName}");
-        if(menu != null) return menu;
+        API.GameMenu gameMenu = MenuManager.Instance.Find($"ModMenu {modName}");
+        if(gameMenu != null) return gameMenu;
         
-        menu = new MenuFactory()
+        gameMenu = new MenuFactory()
             .SetObjectName($"ModMenu {modName}")
             .SetTitle(modName)
-            .SetBackButton(_modsMenu)
+            .SetBackButton(_modsGameMenu)
             .Build();
 
         new MenuOptionFactory()
             .SetName(modName)
-            .SetParent(_modsMenu)
+            .SetParent(_modsGameMenu)
             .SetObjectName($"ModMenuButton {modName}")
-            .SetNextLocation(menu)
-            .PlaceOptionBefore(menu.MenuOptions.Count - 1)
+            .SetNextLocation(gameMenu)
+            .PlaceOptionBefore(gameMenu.MenuOptions.Count - 1)
             .Build();
         
-        return menu;
+        return gameMenu;
     }
 }

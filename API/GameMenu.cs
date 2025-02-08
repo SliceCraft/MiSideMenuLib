@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 namespace MenuLib.API;
 
-public class Menu
+public class GameMenu
 {
     public GameObject MenuObject { get; }
 
-    internal Menu(GameObject originalMenu)
+    internal GameMenu(GameObject originalMenu)
     {
         MenuObject = originalMenu;
     }

@@ -23,9 +23,9 @@ public class MenuManager
         InitializedMenuManagerEvent.Invoke();
     }
 
-    private List<Menu> GetMenus()
+    private List<GameMenu> GetMenus()
     {
-        List<Menu> menus = [];
+        List<GameMenu> menus = [];
         
         for (int i = 0; i < _frameMenu.transform.childCount; i++)
         {
@@ -39,7 +39,7 @@ public class MenuManager
         return menus;
     }
 
-    public List<Menu> Menus => GetMenus();
+    public List<GameMenu> Menus => GetMenus();
 
     private void PrepareCache()
     {
@@ -70,9 +70,9 @@ public class MenuManager
         }
     }
 
-    public Menu Find(string name)
+    public GameMenu Find(string name)
     {
-        foreach (Menu menu in Menus)
+        foreach (GameMenu menu in Menus)
         {
             if(menu.MenuObject.gameObject.name.ToLower().Equals(name.ToLower())) return menu;
         }
@@ -122,7 +122,7 @@ public class MenuManager
         return menu;
     }
     
-    internal GameObject CreateOptionFromTemplate(Menu parent)
+    internal GameObject CreateOptionFromTemplate(GameMenu parent)
     {
         return Object.Instantiate(_cacheLocation.transform.Find("Menu/Button NewGame").gameObject, parent.MenuObject.transform);
     }

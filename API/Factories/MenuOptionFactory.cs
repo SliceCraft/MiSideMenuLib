@@ -11,7 +11,7 @@ public class MenuOptionFactory
     private string _name = null;
     private GameObject _nextLocation = null;
     private UnityAction _onClickAction = null;
-    private Menu _parent = null;
+    private GameMenu _parent = null;
     private int _placeBefore = -1;
     private string _objectName = null;
     
@@ -21,7 +21,7 @@ public class MenuOptionFactory
         return this;
     }
 
-    public MenuOptionFactory SetNextLocation(Menu nextLocation)
+    public MenuOptionFactory SetNextLocation(GameMenu nextLocation)
     {
         _nextLocation = nextLocation.MenuObject;
         return this;
@@ -33,7 +33,7 @@ public class MenuOptionFactory
         return this;
     }
 
-    public MenuOptionFactory SetParent(Menu parent)
+    public MenuOptionFactory SetParent(GameMenu parent)
     {
         _parent = parent;
         return this;
