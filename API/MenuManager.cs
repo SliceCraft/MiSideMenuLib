@@ -126,4 +126,9 @@ public class MenuManager
     {
         return Object.Instantiate(_cacheLocation.transform.Find("Menu/Button NewGame").gameObject, parent.MenuObject.transform);
     }
+    
+    internal GameObject CreateDividerFromTemplate(GameMenu parent)
+    {
+        return Object.Instantiate(_cacheLocation.transform.Find("Menu/-").gameObject, parent.MenuObject.transform);
+    }
 }

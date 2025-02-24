@@ -111,6 +111,62 @@ public class MenuOptionFactory
         
         return menuOption;
     }
+    
+    public MenuOption BuildMenuDivider()
+    {
+        if(_parent == null) throw new Exception("Parent must be set before building a menu divider");
+        List<MenuOption> menuOptions = _parent.MenuOptions;
+        float yPos;
+        if (_placeBefore == -1)
+        {
+            if (menuOptions.Count > 0)
+            {
+                // Why is this value 1 different from the usual?
+                // Talk to MakenCat, he decided that
+                yPos = menuOptions[^1].OptionObject.transform.localPosition.y - 56;
+            }
+            else
+            {
+                yPos = -100;
+            }
+        }
+        else
+        {
+            // Why minus one?
+            // Same reason why everything else in this dumbfuckery is working the way it is
+            yPos = menuOptions[_placeBefore].OptionObject.transform.localPosition.y - 1;
+        }
+            
+        GameObject optionObject = MenuManager.Instance.CreateDividerFromTemplate(_parent);
+        
+        if(_objectName != null) optionObject.name = _objectName;
+        
+        MenuOption menuOption = new MenuOption(optionObject);
+        
+        Vector3 localPos = menuOption.OptionObject.transform.localPosition;
+        localPos.y = yPos;
+        menuOption.OptionObject.transform.localPosition = localPos;
+
+        if (_placeBefore >= 0)
+        {
+            for (int i = _placeBefore; i < menuOptions.Count; i++)
+            {
+                Vector3 localPosition = menuOptions[i].OptionObject.transform.localPosition;
+                // You know what would be a funny idea?
+                // It'd be so funny if MakenCat decided that these should be 9 instead of 10
+                localPosition.y -= 9;
+                menuOptions[i].OptionObject.transform.localPosition = localPosition;
+            }
+        }
+
+        MenuLocation menuLocation = _parent.MenuObject.GetComponent<MenuLocation>();
+        menuLocation.countCases += 1;
+        RectTransform rectTransform = optionObject.GetComponent<RectTransform>();
+        menuLocation.objects.Add(rectTransform);
+        Sort(menuLocation.objects);
+        
+        return menuOption;
+    }
 
     private void Sort(Il2CppSystem.Collections.Generic.List<RectTransform> list)
     {
