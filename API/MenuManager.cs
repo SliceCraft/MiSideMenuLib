@@ -53,6 +53,7 @@ public class MenuManager
         GameObject cachedLocationMenu = Object.Instantiate(locationMenu, _cacheLocation.transform);
         cachedLocationMenu.name = "Menu";
         
+        // This can potentially be removed, it seems like Localization_UIText is added again during building
         for (int i = 0; i < cachedLocationMenu.transform.childCount; i++)
         {
             GameObject child = cachedLocationMenu.transform.GetChild(i).gameObject;

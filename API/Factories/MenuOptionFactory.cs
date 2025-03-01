@@ -89,6 +89,12 @@ public class MenuOptionFactory
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
         if(_onClickAction != null) menuOption.OnClick.AddListener(_onClickAction);
         
+        Localization_UIText uiText = menuOption.TextComponent.GetComponent<Localization_UIText>();
+        if (uiText != null)
+        {
+            UnityEngine.Object.Destroy(uiText);
+        }
+        
         Vector3 localPos = menuOption.OptionObject.transform.localPosition;
         localPos.y = yPos;
         menuOption.OptionObject.transform.localPosition = localPos;

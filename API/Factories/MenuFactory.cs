@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace MenuLib.API.Factories;
 
@@ -44,6 +45,11 @@ public class MenuFactory
         
         gameMenu.Title = _title;
         gameMenu.TextComponent.font = GlobalGame.fontUse;
+        Localization_UIText uiText = gameMenu.TextComponent.GetComponent<Localization_UIText>();
+        if (uiText != null)
+        {
+            Object.Destroy(uiText);
+        }
 
         if (_backGameMenu != null)
         {
