@@ -21,6 +21,3 @@ jobs:
         with:
           solution: ./MenuLib.sln
           debug: 'True'
-
-    permissions:
-      security-events: write
