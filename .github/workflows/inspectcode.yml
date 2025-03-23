@@ -12,10 +12,19 @@ jobs:
   inspect-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
           submodules: recursive
-
+      - name: Check out dependencies
+        uses: actions/checkout@v3
+        with:
+          repository: SliceCraft/MiSideDependencies
+          ref: '0.93'
+          ssh-key: ${{ secrets.MISIDEDEPENDENCIES }}
+          path: miside-dependencies
+      - name: Move dependencies from clone to repository
+        run: 'mv miside-dependencies/Dependencies/* ./Dependencies/*'
       - name: Annotate
         uses: JetBrains/ReSharper-InspectCode@v0.8
         with:
