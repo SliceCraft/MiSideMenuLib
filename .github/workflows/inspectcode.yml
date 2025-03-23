@@ -1,0 +1,26 @@
+﻿name: InspectCode
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened]
+  workflow_dispatch:
+
+jobs:
+  inspect-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Annotate
+        uses: JetBrains/ReSharper-InspectCode@v0.3
+        with:
+          solution: ./MenuLib.sln
+          debug: 'True'
+
+    permissions:
+      security-events: write

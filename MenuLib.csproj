@@ -23,4 +23,8 @@
   <ItemGroup>
     <Reference Include="Dependencies/*.dll" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".github\workflows\inspectcode.yml" />
+  </ItemGroup>
 </Project>
