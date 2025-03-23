@@ -24,7 +24,7 @@ jobs:
           ssh-key: ${{ secrets.MISIDEDEPENDENCIES }}
           path: miside-dependencies
       - name: Move dependencies from clone to repository
-        run: 'mv miside-dependencies/Dependencies/* ./Dependencies/*'
+        run: 'mv miside-dependencies/Dependencies/* ./Dependencies/'
       - name: Annotate
         uses: JetBrains/ReSharper-InspectCode@v0.8
         with:
