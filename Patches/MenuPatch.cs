@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using MenuLib.API;
-using MenuLib.ModSettings;
 
 namespace MenuLib.Patches;
 

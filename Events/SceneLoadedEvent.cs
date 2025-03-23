@@ -1,10 +1,9 @@
 ﻿using MenuLib.API;
-using MenuLib.ModSettings;
 using UnityEngine.SceneManagement;
 
 namespace MenuLib.Events;
 
-public class SceneLoadedEvent
+public static class SceneLoadedEvent
 {
     public static void RegisterEvent()
     {
@@ -15,9 +14,7 @@ public class SceneLoadedEvent
     {
         if (scene.name == "SceneMenu")
         {
-            // This variable won't be stored since we don't need to.
-            // MenuManager is a singleton and that logic is handled inside the MenuManagers constructor.
-            new MenuManager();
+            MenuManager.Initialize();
         }
     }
 }

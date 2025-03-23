@@ -8,12 +8,12 @@ namespace MenuLib.API.Factories;
 
 public class MenuOptionFactory
 {
-    private string _name = null;
-    private GameObject _nextLocation = null;
-    private UnityAction _onClickAction = null;
-    private GameMenu _parent = null;
+    private string _name;
+    private GameObject _nextLocation;
+    private UnityAction _onClickAction;
+    private GameMenu _parent;
     private int _placeBefore = -1;
-    private string _objectName = null;
+    private string _objectName;
     
     public MenuOptionFactory SetName(string name)
     {
@@ -48,7 +48,7 @@ public class MenuOptionFactory
     public MenuOptionFactory PlaceOptionBefore(MenuOption placeBefore)
     {
         // TODO: Implement this
-        return null;
+        return this;
     }
 
     public MenuOptionFactory SetObjectName(string name)
@@ -174,7 +174,7 @@ public class MenuOptionFactory
         return menuOption;
     }
 
-    private void Sort(Il2CppSystem.Collections.Generic.List<RectTransform> list)
+    private static void Sort(Il2CppSystem.Collections.Generic.List<RectTransform> list)
     {
         List<RectTransform> list2 = [];
         for (int i = 0; i < list.Count; i++)

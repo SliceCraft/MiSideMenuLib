@@ -1,30 +1,29 @@
-﻿using MenuLib.API;
-using MenuLib.API.Events;
+﻿using MenuLib.API.Events;
 using MenuLib.API.Factories;
 
-namespace MenuLib.ModSettings;
+namespace MenuLib.API;
 
-public class SettingsManager
+public static class SettingsManager
 {
-    private static API.GameMenu _modsGameMenu = null;
+    private static GameMenu _modsGameMenu;
     
     internal static void Init()
     {
-        API.GameMenu gameMenu = MenuManager.Instance.Find("Location Menu");
+        GameMenu gameMenu = MenuManager.Instance.Find("Location Menu");
         if (gameMenu == null)
         {
             Plugin.Log.LogError("Couldn't find the main menu");
             return;            
         }
         
-        API.GameMenu settingsGameMenu = MenuManager.Instance.Find("Location MainOptions");
+        GameMenu settingsGameMenu = MenuManager.Instance.Find("Location MainOptions");
         if (settingsGameMenu == null)
         {
             Plugin.Log.LogError("Couldn't find the settings menu");
             return;
         }
 
-        API.GameMenu modsGameMenu = new MenuFactory()
+        GameMenu modsGameMenu = new MenuFactory()
             .SetObjectName("Location Mods")
             .SetBackButton(settingsGameMenu)
             .SetTitle("MOD SETTINGS")
@@ -42,9 +41,9 @@ public class SettingsManager
         InitializedEvent.Invoke();
     }
 
-    public static API.GameMenu GetModMenu(string modName)
+    public static GameMenu GetModMenu(string modName)
     {
-        API.GameMenu gameMenu = MenuManager.Instance.Find($"ModMenu {modName}");
+        GameMenu gameMenu = MenuManager.Instance.Find($"ModMenu {modName}");
         if(gameMenu != null) return gameMenu;
         
         gameMenu = new MenuFactory()

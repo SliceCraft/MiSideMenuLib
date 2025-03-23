@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using MenuLib.API.Events;
 using MenuLib.API.Factories;
 using UnityEngine;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace MenuLib.API;
 
 public class MenuManager
 {
-    public static MenuManager Instance { get; private set; } = null!;
+    public static MenuManager Instance { get; private set; }
 
-    private GameObject _frameMenu = null;
-    private GameObject _cacheLocation = null;
-    
-    internal MenuManager()
+    private GameObject _frameMenu;
+    private GameObject _cacheLocation;
+
+    internal static void Initialize()
     {
-        Instance = this;
+        Instance = new MenuManager();
+    }
+    
+    private MenuManager()
+    {
         PrepareCache();
         InitializedMenuManagerEvent.Invoke();
     }

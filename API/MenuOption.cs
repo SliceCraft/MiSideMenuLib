@@ -6,7 +6,7 @@ namespace MenuLib.API;
 
 public class MenuOption
 {
-    public GameObject OptionObject { get; private set; }
+    public GameObject OptionObject { get; }
 
     internal MenuOption(GameObject originalOption)
     {

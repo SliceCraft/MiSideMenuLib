@@ -6,9 +6,9 @@ namespace MenuLib.API.Factories;
 
 public class MenuFactory
 {
-    private string _objectName = null;
-    private GameMenu _backGameMenu = null;
-    private string _title = null;
+    private string _objectName;
+    private GameMenu _backGameMenu;
+    private string _title;
     
     internal static GameMenu FromExistingMenu(GameObject existingMenu)
     {
@@ -51,16 +51,15 @@ public class MenuFactory
             Object.Destroy(uiText);
         }
 
-        if (_backGameMenu != null)
-        {
-            MenuOption backButton = new MenuOptionFactory()
-                .SetName("BACK")
-                .SetParent(gameMenu)
-                .SetNextLocation(_backGameMenu)
-                .Build();
+        if (_backGameMenu == null) return gameMenu;
         
-            menuLocation.buttonBack = backButton.OptionObject;
-        }
+        MenuOption backButton = new MenuOptionFactory()
+            .SetName("BACK")
+            .SetParent(gameMenu)
+            .SetNextLocation(_backGameMenu)
+            .Build();
+        
+        menuLocation.buttonBack = backButton.OptionObject;
 
         return gameMenu;
     }

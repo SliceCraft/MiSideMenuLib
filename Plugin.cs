@@ -7,9 +7,10 @@ using MenuLib.Events;
 namespace MenuLib;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+// ReSharper disable once ClassNeverInstantiated.Global
 public class Plugin : BasePlugin
 {
-    internal static new ManualLogSource Log;
+    internal new static ManualLogSource Log;
 
     public override void Load()
     {
