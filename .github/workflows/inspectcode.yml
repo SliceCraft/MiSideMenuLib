@@ -25,6 +25,8 @@ jobs:
           path: miside-dependencies
       - name: Move dependencies from clone to repository
         run: 'mv miside-dependencies/Dependencies/* ./Dependencies/'
+      - name: Remove possible existing menulib
+        run: 'rm Dependencies/SliceCraft.MiSideMenuLib.dll'
       - name: Annotate
         uses: JetBrains/ReSharper-InspectCode@v0.8
         with:
