@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace MenuLib.API.Events;
 
-public class InitializedEvent
+public static class InitializedEvent
 {
-    private static List<Action> actions = new List<Action>();
+    private static readonly List<Action> Actions = [];
     
     public static void AddEventListener(Action listener)
     {
-        actions.Add(listener);
+        Actions.Add(listener);
     }
 
     internal static void Invoke()
     {
-        foreach (Action action in actions)
+        foreach (Action action in Actions)
         {
             try
             {

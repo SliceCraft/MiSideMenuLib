@@ -8,12 +8,12 @@ namespace MenuLib.API.Factories;
 
 public class MenuOptionFactory
 {
-    private string _name = null;
-    private GameObject _nextLocation = null;
-    private UnityAction _onClickAction = null;
-    private GameMenu _parent = null;
+    private string _name;
+    private GameObject _nextLocation;
+    private UnityAction _onClickAction;
+    private GameMenu _parent;
     private int _placeBefore = -1;
-    private string _objectName = null;
+    private string _objectName;
     
     public MenuOptionFactory SetName(string name)
     {
@@ -43,12 +43,6 @@ public class MenuOptionFactory
     {
         _placeBefore = placeBefore;
         return this;
-    }
-    
-    public MenuOptionFactory PlaceOptionBefore(MenuOption placeBefore)
-    {
-        // TODO: Implement this
-        return null;
     }
 
     public MenuOptionFactory SetObjectName(string name)
@@ -82,10 +76,15 @@ public class MenuOptionFactory
         
         if(_objectName != null) optionObject.name = _objectName;
         
-        MenuOption menuOption = new MenuOption(optionObject);
-        menuOption.Text = _name;
-        menuOption.TextComponent.font = GlobalGame.fontUse;
-        menuOption.NextLocation = _nextLocation;
+        MenuOption menuOption = new MenuOption(optionObject)
+        {
+            Text = _name,
+            TextComponent =
+            {
+                font = GlobalGame.fontUse
+            },
+            NextLocation = _nextLocation
+        };
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
         if(_onClickAction != null) menuOption.OnClick.AddListener(_onClickAction);
         
@@ -174,7 +173,7 @@ public class MenuOptionFactory
         return menuOption;
     }
 
-    private void Sort(Il2CppSystem.Collections.Generic.List<RectTransform> list)
+    private static void Sort(Il2CppSystem.Collections.Generic.List<RectTransform> list)
     {
         List<RectTransform> list2 = [];
         for (int i = 0; i < list.Count; i++)

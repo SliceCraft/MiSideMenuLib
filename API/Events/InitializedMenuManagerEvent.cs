@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace MenuLib.API.Events;
 
-public class InitializedMenuManagerEvent
+public static class InitializedMenuManagerEvent
 {
-    private static List<Action> actions = new List<Action>();
+    private static readonly List<Action> Actions = [];
 
     // I would recommend against using this event.
     // When modifying the menu it's better to do this in the InitializedEvent
@@ -13,12 +13,12 @@ public class InitializedMenuManagerEvent
     // when the game and this library have finished their setup.
     public static void AddEventListener(Action listener)
     {
-        actions.Add(listener);
+        Actions.Add(listener);
     }
 
     internal static void Invoke()
     {
-        foreach (Action action in actions)
+        foreach (Action action in Actions)
         {
             try
             {

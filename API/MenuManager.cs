@@ -1,24 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MenuLib.API.Events;
 using MenuLib.API.Factories;
 using UnityEngine;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace MenuLib.API;
 
 public class MenuManager
 {
-    public static MenuManager Instance { get; private set; } = null!;
+    public static MenuManager Instance { get; private set; }
 
-    private GameObject _frameMenu = null;
-    private GameObject _cacheLocation = null;
+    private GameObject _frameMenu;
+    private GameObject _cacheLocation;
     
-    internal MenuManager()
+    private List<GameMenu> Menus => GetMenus();
+
+    internal static void Initialize()
     {
-        Instance = this;
+        Instance = new MenuManager();
+    }
+    
+    private MenuManager()
+    {
         PrepareCache();
         InitializedMenuManagerEvent.Invoke();
     }
@@ -39,16 +43,19 @@ public class MenuManager
         return menus;
     }
 
-    public List<GameMenu> Menus => GetMenus();
-
     private void PrepareCache()
     {
         _frameMenu = GameObject.Find("MenuGame/Canvas/FrameMenu");
-        _cacheLocation = new GameObject();
-        _cacheLocation.transform.parent = _frameMenu.transform;
-        _cacheLocation.name = "MenuLibCache";
-        _cacheLocation.active = false;
-        
+        _cacheLocation = new GameObject
+        {
+            transform =
+            {
+                parent = _frameMenu.transform
+            },
+            name = "MenuLibCache",
+            active = false
+        };
+
         GameObject locationMenu = GameObject.Find("MenuGame/Canvas/FrameMenu/Location Menu");
         GameObject cachedLocationMenu = Object.Instantiate(locationMenu, _cacheLocation.transform);
         cachedLocationMenu.name = "Menu";
@@ -73,18 +80,13 @@ public class MenuManager
 
     public GameMenu Find(string name)
     {
-        foreach (GameMenu menu in Menus)
-        {
-            if(menu.MenuObject.gameObject.name.ToLower().Equals(name.ToLower())) return menu;
-        }
-
-        return null;
+        return Menus.FirstOrDefault(menu => menu.MenuObject.gameObject.name.ToLower().Equals(name.ToLower()), null);
     }
 
     internal GameObject CreateMenuFromTemplate()
     {
         GameObject menu = Object.Instantiate(_cacheLocation.transform.Find("Menu").gameObject, _frameMenu.transform);
-        List<GameObject> childrenThatShouldBeOrphaned = new List<GameObject>();
+        List<GameObject> childrenThatShouldBeOrphaned = [];
         GameObject textObject = null;
         for (int i = 0; i < menu.transform.childCount; i++)
         {
