@@ -17,8 +17,7 @@ public class GameMenu
     private GameObject FindTitle()
     {
         Transform transform = MenuObject.transform.Find("Text");
-        if(transform == null) return null;
-        return transform.gameObject;
+        return transform == null ? null : transform.gameObject;
     }
 
     public string Title
@@ -57,12 +56,7 @@ public class GameMenu
     
     public MenuOption Find(string name)
     {
-        foreach (MenuOption option in MenuOptions)
-        {
-            if(option.OptionObject.gameObject.name.ToLower().Equals(name.ToLower())) return option;
-        }
-
-        return null;
+        return MenuOptions.FirstOrDefault(option => option.OptionObject.gameObject.name.ToLower().Equals(name.ToLower()), null);
     }
 
     // TODO: Method for forcing to switch to this menu

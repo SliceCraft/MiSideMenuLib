@@ -44,12 +44,6 @@ public class MenuOptionFactory
         _placeBefore = placeBefore;
         return this;
     }
-    
-    public MenuOptionFactory PlaceOptionBefore(MenuOption placeBefore)
-    {
-        // TODO: Implement this
-        return this;
-    }
 
     public MenuOptionFactory SetObjectName(string name)
     {
@@ -82,10 +76,15 @@ public class MenuOptionFactory
         
         if(_objectName != null) optionObject.name = _objectName;
         
-        MenuOption menuOption = new MenuOption(optionObject);
-        menuOption.Text = _name;
-        menuOption.TextComponent.font = GlobalGame.fontUse;
-        menuOption.NextLocation = _nextLocation;
+        MenuOption menuOption = new MenuOption(optionObject)
+        {
+            Text = _name,
+            TextComponent =
+            {
+                font = GlobalGame.fontUse
+            },
+            NextLocation = _nextLocation
+        };
         menuOption.OnClick.m_PersistentCalls.m_Calls.Clear();
         if(_onClickAction != null) menuOption.OnClick.AddListener(_onClickAction);
         

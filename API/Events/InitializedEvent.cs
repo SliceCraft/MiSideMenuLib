@@ -5,16 +5,16 @@ namespace MenuLib.API.Events;
 
 public static class InitializedEvent
 {
-    private static readonly List<Action> _actions = new();
+    private static readonly List<Action> Actions = [];
     
     public static void AddEventListener(Action listener)
     {
-        _actions.Add(listener);
+        Actions.Add(listener);
     }
 
     internal static void Invoke()
     {
-        foreach (Action action in _actions)
+        foreach (Action action in Actions)
         {
             try
             {

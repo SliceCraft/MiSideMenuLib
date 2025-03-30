@@ -5,7 +5,7 @@ namespace MenuLib.API.Events;
 
 public static class InitializedMenuManagerEvent
 {
-    private static readonly List<Action> _actions = new();
+    private static readonly List<Action> Actions = [];
 
     // I would recommend against using this event.
     // When modifying the menu it's better to do this in the InitializedEvent
@@ -13,12 +13,12 @@ public static class InitializedMenuManagerEvent
     // when the game and this library have finished their setup.
     public static void AddEventListener(Action listener)
     {
-        _actions.Add(listener);
+        Actions.Add(listener);
     }
 
     internal static void Invoke()
     {
-        foreach (Action action in _actions)
+        foreach (Action action in Actions)
         {
             try
             {

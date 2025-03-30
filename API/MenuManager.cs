@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MenuLib.API.Events;
 using MenuLib.API.Factories;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class MenuManager
 
     private GameObject _frameMenu;
     private GameObject _cacheLocation;
+    
+    private List<GameMenu> Menus => GetMenus();
 
     internal static void Initialize()
     {
@@ -40,16 +43,19 @@ public class MenuManager
         return menus;
     }
 
-    public List<GameMenu> Menus => GetMenus();
-
     private void PrepareCache()
     {
         _frameMenu = GameObject.Find("MenuGame/Canvas/FrameMenu");
-        _cacheLocation = new GameObject();
-        _cacheLocation.transform.parent = _frameMenu.transform;
-        _cacheLocation.name = "MenuLibCache";
-        _cacheLocation.active = false;
-        
+        _cacheLocation = new GameObject
+        {
+            transform =
+            {
+                parent = _frameMenu.transform
+            },
+            name = "MenuLibCache",
+            active = false
+        };
+
         GameObject locationMenu = GameObject.Find("MenuGame/Canvas/FrameMenu/Location Menu");
         GameObject cachedLocationMenu = Object.Instantiate(locationMenu, _cacheLocation.transform);
         cachedLocationMenu.name = "Menu";
@@ -74,18 +80,13 @@ public class MenuManager
 
     public GameMenu Find(string name)
     {
-        foreach (GameMenu menu in Menus)
-        {
-            if(menu.MenuObject.gameObject.name.ToLower().Equals(name.ToLower())) return menu;
-        }
-
-        return null;
+        return Menus.FirstOrDefault(menu => menu.MenuObject.gameObject.name.ToLower().Equals(name.ToLower()), null);
     }
 
     internal GameObject CreateMenuFromTemplate()
     {
         GameObject menu = Object.Instantiate(_cacheLocation.transform.Find("Menu").gameObject, _frameMenu.transform);
-        List<GameObject> childrenThatShouldBeOrphaned = new List<GameObject>();
+        List<GameObject> childrenThatShouldBeOrphaned = [];
         GameObject textObject = null;
         for (int i = 0; i < menu.transform.childCount; i++)
         {

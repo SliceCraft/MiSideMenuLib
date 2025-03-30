@@ -2,20 +2,17 @@
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, synchronize]
-  workflow_dispatch:
 
 jobs:
   inspect-code:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
       - name: Check out dependencies
         uses: actions/checkout@v3
         with:
@@ -23,19 +20,28 @@ jobs:
           ref: '0.93'
           ssh-key: ${{ secrets.MISIDEDEPENDENCIES }}
           path: miside-dependencies
+
+      - name: Check out PR branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: src
+        
       - name: Move dependencies from clone to repository
-        run: 'mv miside-dependencies/Dependencies/* ./Dependencies/'
+        run: mv miside-dependencies/Dependencies/* ./src/Dependencies/
+
       - name: Remove possible existing menulib
-        run: 'rm ./Dependencies/SliceCraft.MenuLib.dll'
+        run: rm ./src/Dependencies/SliceCraft.MenuLib.dll
+
       - name: Inspect code
         uses: muno92/resharper_inspectcode@v1
         with:
-          solutionPath: ./MenuLib.sln
+          solutionPath: ./src/MenuLib.sln
           include: |
             **.cs
             **.cshtml
-        ignoreIssueType: |
+          ignoreIssueType: |
             SuggestVarOrType_BuiltInTypes
-
-    permissions:
-      security-events: write
+            SuggestVarOrType_Elsewhere
+            SuggestVarOrType_SimpleTypes
+            UnusedMember.Global
