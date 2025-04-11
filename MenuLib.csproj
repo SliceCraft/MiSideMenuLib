@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <PackageId>MiSideMenuLib</PackageId>
+    <Authors>SliceCraft</Authors>
+    <Description>A library for interacting with the menus inside the MiSide video game</Description>
+    <PackageProjectUrl>https://github.com/SliceCraft/MiSideMenuLib</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SliceCraft/MiSideMenuLib</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <AssemblyName>SliceCraft.MenuLib</AssemblyName>
     <Product>MenuLib</Product>
     <Version>1.0.4</Version>
@@ -21,7 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Dependencies/*.dll" />
+    <Reference Include="Dependencies/*.dll">
+      <Private>false</Private>
+    </Reference>
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
